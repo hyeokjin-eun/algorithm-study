@@ -3,13 +3,16 @@ package com.company.lecture.algorithm1.dp;
 import java.io.*;
 
 // link
-// https://www.acmicpc.net/problem/2225
-public class Backjun2225 {
+// https://www.acmicpc.net/problem/1149
+public class Backjun1149 {
     private static final String[] array = {
-            ""
+            "3\n" +
+            "26 40 83\n" +
+            "49 60 57\n" +
+            "13 89 99"
     };
 
-    public static void main (String[] args) throws IOException {
+    public static void main (String[] args) {
         for (int i = 0; i < array.length; i++) {
             System.out.println("===== Test Case " + i + " Start =====");
             long before = System.currentTimeMillis();
@@ -22,26 +25,11 @@ public class Backjun2225 {
         }
     }
 
-    private static void solution (String input) throws IOException {
+    private static void solution (String input) {
         InputStreamReader isr = new InputStreamReader(new ByteArrayInputStream(input.getBytes()));
         OutputStreamWriter osw = new OutputStreamWriter(System.out);
         BufferedReader br = new BufferedReader(isr);
         BufferedWriter bw = new BufferedWriter(osw);
-        String[] nums = br.readLine().split(" ");
-        int n = Integer.parseInt(nums[0]);
-        int k = Integer.parseInt(nums[1]);
-        int[][] a = new int[k + 1][n + 1];
-        a[0][0]= 1;
-        for (int i = 1; i <= k; i++) {
-            for (int j = 0; j <= n; j++) {
-                for (int l = 0; l <= j; l++) {
-                    a[i][j] += a[i - 1][j - l];
-                    a[i][j] %= 1000000000L;
-                }
-            }
-        }
 
-        bw.write(String.valueOf(a[k][n]));
-        bw.flush();
     }
 }

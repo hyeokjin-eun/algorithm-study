@@ -3,13 +3,17 @@ package com.company.lecture.algorithm1.dp;
 import java.io.*;
 
 // link
-// https://www.acmicpc.net/problem/15990
-public class Backjun15990 {
+// https://www.acmicpc.net/problem/15988
+public class Backjun15988 {
     private static final String[] array = {
-            "3\n" +
+            "7\n" +
             "4\n" +
             "7\n" +
-            "10"
+            "10\n" +
+            "1\n" +
+            "2\n" +
+            "3\n" +
+            "1000000"
     };
 
     public static void main (String[] args) throws IOException {
@@ -31,31 +35,29 @@ public class Backjun15990 {
         BufferedReader br = new BufferedReader(isr);
         BufferedWriter bw = new BufferedWriter(osw);
         int index = Integer.parseInt(br.readLine());
-        long[][] dp = dp();
         for (int i = 0; i < index; i++) {
             int n = Integer.parseInt(br.readLine());
-            bw.write(String.valueOf((dp[n][1] + dp[n][2] + dp[n][3]) % 1000000009L));
+            long answer = dp(n);
+            bw.write(String.valueOf(answer));
             bw.write("\n");
         }
 
         bw.flush();
     }
 
-
-
-    private static long[][] dp () {
-        long[][] dp = new long[100001][4];
-        dp[1][1] = 1;
-        dp[2][2] = 1;
-        dp[3][1] = 1;
-        dp[3][2] = 1;
-        dp[3][3] = 1;
-        for (int i = 4; i < 100001; i++) {
-            dp[i][1] = (dp[i - 1][2] + dp[i - 1][3]) % 1000000009L;
-            dp[i][2] = (dp[i - 2][1] + dp[i - 2][3]) % 1000000009L;
-            dp[i][3] = (dp[i - 3][1] + dp[i - 3][2]) % 1000000009L;
+    private static long dp (int n) {
+        if (n < 2) {
+            return 1;
         }
 
-        return dp;
+        long[] a = new long[n + 1];
+        a[0] = 1;
+        a[1] = 1;
+        a[2] = 2;
+        for (int i = 3; i <= n; i++) {
+            a[i] += (a[i - 1] + a[i - 2] + a[i - 3])  % 1000000009;
+        }
+
+        return a[n];
     }
 }
