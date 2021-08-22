@@ -3,13 +3,13 @@ package com.company.lecture.algorithm1.dp;
 import java.io.*;
 
 // link
-// https://www.acmicpc.net/problem/1149
-public class Backjun1149 {
+// https://www.acmicpc.net/problem/11057
+public class Backjun11057 {
     private static final String[] array = {
-            "3\n" +
-            "26 40 83\n" +
-            "49 60 57\n" +
-            "13 89 99"
+            "1",
+            "2",
+            "3",
+            "1000"
     };
 
     public static void main (String[] args) throws IOException {
@@ -30,23 +30,23 @@ public class Backjun1149 {
         OutputStreamWriter osw = new OutputStreamWriter(System.out);
         BufferedReader br = new BufferedReader(isr);
         BufferedWriter bw = new BufferedWriter(osw);
-        int index = Integer.parseInt(br.readLine());
-        int[][] a = new int[index + 1][4];
-        for (int i = 1; i <= index; i++) {
-            String[] nums = br.readLine().split(" ");
-            a[i][1] = Integer.parseInt(nums[0]);
-            a[i][2] = Integer.parseInt(nums[1]);
-            a[i][3] = Integer.parseInt(nums[2]);
+        int n = Integer.parseInt(br.readLine());
+        long[][] a = new long[n][10];
+        for (int i = 0; i < 10; i++) {
+            a[0][i] = i + 1;
         }
 
-        for (int i = 2; i <= index; i++) {
-            a[i][1] = Math.min(a[i - 1][2], a[i - 1][3]) + a[i][1];
-            a[i][2] = Math.min(a[i - 1][1], a[i - 1][3]) + a[i][2];
-            a[i][3] = Math.min(a[i - 1][1], a[i - 1][2]) + a[i][3];
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (j == 0) {
+                    a[i][j] = 1;
+                } else {
+                    a[i][j] = (a[i][j - 1] + a[i - 1][j]) % 10007;
+                }
+            }
         }
 
-        int min = Math.min(a[index][3], Math.min(a[index][1], a[index][2]));
-        bw.write(String.valueOf(min));
+        bw.write(String.valueOf(a[n - 1][9] % 10007));
         bw.flush();
     }
 }
