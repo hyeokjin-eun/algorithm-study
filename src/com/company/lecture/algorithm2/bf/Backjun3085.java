@@ -20,7 +20,11 @@ public class Backjun3085 {
             "CYZZP\n" +
             "CCPPP\n" +
             "YCYZC\n" +
-            "CPPZZ"
+            "CPPZZ",
+            "3\n" +
+            "YCP\n" +
+            "PZY\n" +
+            "YYY"
     };
 
     public static void main (String[] args) throws IOException {
@@ -50,11 +54,91 @@ public class Backjun3085 {
             }
         }
 
+        int answer = 1;
+        for (int i = 0; i < index; i++) {
+            // 가로 Change
+            for (int j = 1; j < index; j++) {
+                char temp = candy[i][j];
+                candy[i][j] = candy[i][j - 1];
+                candy[i][j - 1] = temp;
+                int count = check(i, j - 1,false, index, candy);
+                if (answer < count) {
+                    answer = count;
+                }
 
-        for (int i = 0; i < index - 1; i++) {
-            for () {
+                candy[i][j - 1] = candy[i][j];
+                candy[i][j] = temp;
+            }
 
+            // 세로 Change
+            for (int j = 1; j < index; j++) {
+                char temp = candy[j][i];
+                candy[j][i] = candy[j - 1][i];
+                candy[j - 1][i] = temp;
+                int count = check(j - 1, i, true, index, candy);
+                if (answer < count) {
+                    answer = count;
+                }
+
+                candy[j - 1][i] = candy[j][i];
+                candy[j][i] = temp;
             }
         }
+
+        bw.write(String.valueOf(answer));
+        bw.flush();
+    }
+
+    private static int check (int index, int change, boolean check, int max, char[][] candy) {
+        int count = 0;
+        int rowMax = 1;
+        int columnMax = 1;
+        if (check) {
+            rowMax++;
+        } else {
+            columnMax++;
+        }
+
+        // 가로 Check
+        for (int i = index; i < index + rowMax; i++) {
+            int temp = 1;
+            for (int j = 1; j < max; j++) {
+                if (candy[i][j - 1] == candy[i][j]) {
+                    temp++;
+                } else {
+                    if (count < temp) {
+                        count = temp;
+                    }
+
+                    temp = 1;
+                }
+            }
+
+            if (count < temp) {
+                count = temp;
+            }
+        }
+
+        // 세로 Check
+        for (int i = change; i < change + columnMax; i++) {
+            int temp = 1;
+            for (int j = 1; j < max; j++) {
+                if (candy[j - 1][i] == candy[j][i]) {
+                    temp++;
+                } else {
+                    if (count < temp) {
+                        count = temp;
+                    }
+
+                    temp = 1;
+                }
+            }
+
+            if (count < temp) {
+                count = temp;
+            }
+        }
+
+        return count;
     }
 }
