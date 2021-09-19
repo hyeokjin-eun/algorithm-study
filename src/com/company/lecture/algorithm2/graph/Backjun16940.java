@@ -85,8 +85,8 @@ public class Backjun16940 {
 
             int cnt = 0;
             for (int j = 0; j < a.get(x).size(); j++) {
-                if (!check[a.get(x).get(i)]) {
-                    pre[a.get(x).get(i)] = x;
+                if (!check[a.get(x).get(j)]) {
+                    pre[a.get(x).get(j)] = x;
                     cnt++;
                 }
             }
