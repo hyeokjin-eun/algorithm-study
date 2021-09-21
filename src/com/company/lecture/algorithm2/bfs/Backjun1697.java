@@ -7,7 +7,10 @@ import java.util.*;
 // https://www.acmicpc.net/problem/1697
 public class Backjun1697 {
     private static final String[] array = {
-            "5 17"
+            "5 17",
+            "0 0",
+            "0 3",
+            "17 5"
     };
 
     public static void main(String[] args) throws IOException {
@@ -31,27 +34,24 @@ public class Backjun1697 {
         StringTokenizer st = new StringTokenizer(br.readLine());
         int n = Integer.parseInt(st.nextToken());
         int k = Integer.parseInt(st.nextToken());
-        int[] location = new int[k * 2];
-        boolean[] check = new boolean[k * 2];
-        int answer = bfs(n, k, location, check);
+        int i = Math.max(n, k);
+        int[] location = new int[i + 2];
+        boolean[] check = new boolean[i + 2];
+        int answer = bfs(n, k, i, location, check);
         bw.write(String.valueOf(answer));
         bw.flush();
     }
 
-    private static int bfs(int n, int k, int[] location, boolean[] check) {
+    private static int bfs(int n, int k, int index, int[] location, boolean[] check) {
         Queue<Integer> q = new LinkedList<>();
         q.add(n);
         check[n] = true;
         location[n] = 0;
         while (!q.isEmpty()) {
             int x = q.poll();
-            if (x == k) {
-                break;
-            }
-
             int[] temp = new int[]{x - 1, x + 1, x * 2};
             for (int i = 0; i < 3; i++) {
-                if (temp[i] <= k * 2 && !check[temp[i]]) {
+                if (0 <= temp[i] && temp[i] < index + 2 && !check[temp[i]]) {
                     q.add(temp[i]);
                     location[temp[i]] = location[x] + 1;
                     check[temp[i]] = true;
