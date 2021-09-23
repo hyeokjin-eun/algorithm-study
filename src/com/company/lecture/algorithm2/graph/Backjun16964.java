@@ -5,6 +5,7 @@ import java.util.*;
 
 // link
 // https://www.acmicpc.net/problem/16964
+// TODO: 2021-09-22 문제 다시 풀어봐야함
 public class Backjun16964 {
     private static final String[] array = {
             "4\n" +
@@ -63,29 +64,30 @@ public class Backjun16964 {
             ac[i] = Integer.parseInt(st.nextToken()) - 1;
         }
 
-        boolean answer = false;
+        ArrayList<Integer> temp = new ArrayList<>();
+        boolean answer = true;
         if (ac[0] == 0) {
-            answer = dfs(0, 1, check, a, n, ac);
+            dfs(0, check, a, n, ac, temp);
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (temp.get(i) != ac[i]) {
+                answer = false;
+            }
         }
 
         System.out.println(answer);
     }
 
-    private static boolean dfs(int c, int index, boolean[] check, ArrayList<ArrayList<Integer>> a, int n, int[] ac) {
-        if (index == n) {
-            return true;
+    private static void dfs(int c, boolean[] check, ArrayList<ArrayList<Integer>> a, int n, int[] ac, ArrayList<Integer> temp) {
+        if (check[c]) {
+            return;
         }
 
+        temp.add(c);
         check[c] = true;
         for (int i = 0; i < a.get(c).size(); i++) {
-            if (ac[index] == a.get(c).get(i)) {
-                boolean temp = dfs(a.get(c).get(i), index + 1, check, a, n, ac);
-                if (temp) {
-                    return true;
-                }
-            }
+            dfs(a.get(c).get(i), check, a, n, ac, temp);
         }
-
-        return false;
     }
 }
