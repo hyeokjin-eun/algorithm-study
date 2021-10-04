@@ -43,17 +43,20 @@ public class Backjun1535 {
         int[] hp = new int[101];
         for (int i = 0; i < n; i++) {
             for (int j = 99; 0 <= j; j--) {
-                if (j == h[i]) {
-                    continue;
-                }
-
                 if (j + h[i] < 100) {
                     hp[j + h[i]] = Math.max(hp[j + h[i]], hp[j] + p[i]);
                 }
             }
         }
 
-        bw.write(String.valueOf(hp[99]));
+        int answer = 0;
+        for (int i = 0; i < 100; i++) {
+            if (answer < hp[i]) {
+                answer = hp[i];
+            }
+        }
+
+        bw.write(String.valueOf(answer));
         bw.flush();
     }
 
