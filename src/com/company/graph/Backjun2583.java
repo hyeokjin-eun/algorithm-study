@@ -5,7 +5,6 @@ import java.util.*;
 
 // link
 // https://www.acmicpc.net/problem/2583
-// TODO: 2021/10/02 구현 필요
 public class Backjun2583 {
     private static final String[] array = {
             "5 7 3\n" +
@@ -36,6 +35,74 @@ public class Backjun2583 {
         int m = Integer.parseInt(st.nextToken());
         int n = Integer.parseInt(st.nextToken());
         int k = Integer.parseInt(st.nextToken());
+        int[][] a = new int[m][n];
+        for (int i = 0; i < k; i++) {
+            st = new StringTokenizer(br.readLine());
+            int x1 = Integer.parseInt(st.nextToken());
+            int y1 = Integer.parseInt(st.nextToken());
+            int x2 = Integer.parseInt(st.nextToken());
+            int y2 = Integer.parseInt(st.nextToken());
+            for (int x = x1; x < x2; x++) {
+                for (int y = y1; y < y2; y++) {
+                    a[y][x] = 1;
+                }
+            }
+        }
 
+        boolean[][] check = new boolean[m][n];
+        int answer = 0;
+        ArrayList<Integer> temp = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (!check[i][j] && a[i][j] == 0) {
+                    answer++;
+                    int cnt = bfs(j, i, m, n, check, a);
+                    temp.add(cnt);
+                }
+            }
+        }
+
+        bw.write(String.valueOf(answer));
+        bw.write("\n");
+        temp.sort(Comparator.naturalOrder());
+        for (int i = 0; i < temp.size(); i++) {
+            bw.write(String.valueOf(temp.get(i)));
+            if (i != temp.size() - 1) {
+                bw.write(" ");
+            }
+        }
+
+        bw.flush();
+    }
+
+    private static int bfs(int x, int y, int m, int n, boolean[][] check, int[][] a) {
+        Queue<Integer> xq = new LinkedList<>();
+        Queue<Integer> yq = new LinkedList<>();
+        xq.add(x);
+        yq.add(y);
+        check[y][x] = true;
+        int[] xt = new int[]{1, 0, -1, 0};
+        int[] yt = new int[]{0, 1, 0, -1};
+        int cnt = 1;
+        while (!xq.isEmpty() && !yq.isEmpty()) {
+            int cx = xq.poll();
+            int cy = yq.poll();
+            for (int i = 0; i < 4; i++) {
+                int nx = cx + xt[i];
+                int ny = cy + yt[i];
+                if (nx < 0 || ny < 0 || n <= nx || m <= ny) {
+                    continue;
+                }
+
+                if (!check[ny][nx] && a[ny][nx] == 0) {
+                    xq.add(nx);
+                    yq.add(ny);
+                    check[ny][nx] = true;
+                    cnt++;
+                }
+            }
+        }
+
+        return cnt;
     }
 }
