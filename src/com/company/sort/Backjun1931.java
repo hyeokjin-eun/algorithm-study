@@ -3,7 +3,7 @@ package com.company.sort;
 import java.io.*;
 import java.util.*;
 
-public class Backjin1931 {
+public class Backjun1931 {
     private static final String[] array = {
             "11\n" +
             "1 4\n" +
