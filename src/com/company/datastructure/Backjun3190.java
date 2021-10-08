@@ -5,7 +5,7 @@ import java.util.*;
 
 // link
 // https://www.acmicpc.net/problem/3190
-// TODO: 2021-10-07 문제 다시 풀어볼것 
+// TODO: 2021-10-07 문제 다시 풀어볼것
 public class Backjun3190 {
     private static final String[] array = {
             "6\n" +
