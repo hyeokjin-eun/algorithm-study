@@ -4,14 +4,10 @@ import java.io.*;
 import java.util.*;
 
 // link
-// https://www.acmicpc.net/problem/7785
-public class Backjun7785 {
+// https://www.acmicpc.net/problem/10845
+public class Backjun10845 {
     private static final String[] array = {
-            "4\n" +
-            "Baha enter\n" +
-            "Askar enter\n" +
-            "Baha leave\n" +
-            "Artem enter"
+            "7 3"
     };
 
     public static void main (String[] args) throws IOException {
@@ -31,26 +27,27 @@ public class Backjun7785 {
         OutputStreamWriter osw = new OutputStreamWriter(System.out);
         BufferedReader br = new BufferedReader(isr);
         BufferedWriter bw = new BufferedWriter(osw);
-        int N = Integer.parseInt(br.readLine());
-        HashSet<String> set = new HashSet<>();
-        for (int i = 0; i < N; i++) {
-            String[] s = br.readLine().split(" ");
-            if (set.contains(s[0])) {
-                set.remove(s[0]);
-            } else {
-                set.add(s[0]);
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < N; i ++) {
+            queue.offer(i + 1);
+        }
+
+        bw.write("<");
+        while (!queue.isEmpty()) {
+            for (int i = 0; i < K - 1; i++) {
+                queue.offer(queue.poll());
+            }
+
+            bw.write(String.valueOf(queue.poll()));
+            if (!queue.isEmpty()) {
+                bw.write(", ");
             }
         }
 
-        ArrayList<String> a = new ArrayList<>(set);
-        a.sort(Comparator.reverseOrder());
-        for (int i = 0; i < a.size(); i++) {
-            bw.write(a.get(i));
-            if (i != a.size() - 1) {
-                bw.write("\n");
-            }
-        }
-
+        bw.write(">");
         bw.flush();
     }
 }

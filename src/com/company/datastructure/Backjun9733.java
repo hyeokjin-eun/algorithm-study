@@ -4,14 +4,15 @@ import java.io.*;
 import java.util.*;
 
 // link
-// https://www.acmicpc.net/problem/7785
-public class Backjun7785 {
+// https://www.acmicpc.net/problem/9733
+public class Backjun9733 {
+    private static final String[] print = {
+            "Re","Pt","Cc","Ea","Tb","Cm","Ex"
+    };
+
     private static final String[] array = {
-            "4\n" +
-            "Baha enter\n" +
-            "Askar enter\n" +
-            "Baha leave\n" +
-            "Artem enter"
+            "Cc Pt Pt Re Tb Re Cm Cm Re Pt Pt Re Ea Ea Pt Pt\n" +
+            "Pt Re Re Cb Cb Pt Pt Cb"
     };
 
     public static void main (String[] args) throws IOException {
@@ -31,26 +32,31 @@ public class Backjun7785 {
         OutputStreamWriter osw = new OutputStreamWriter(System.out);
         BufferedReader br = new BufferedReader(isr);
         BufferedWriter bw = new BufferedWriter(osw);
-        int N = Integer.parseInt(br.readLine());
-        HashSet<String> set = new HashSet<>();
-        for (int i = 0; i < N; i++) {
-            String[] s = br.readLine().split(" ");
-            if (set.contains(s[0])) {
-                set.remove(s[0]);
-            } else {
-                set.add(s[0]);
+        HashMap<String, Integer> map = new HashMap<>();
+        int total = 0;
+        for (int i = 0; i < print.length; i++) {
+            map.put(print[i], 0);
+        }
+
+        for (int i = 0; i < 2; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            while (st.hasMoreElements()) {
+                String s = st.nextToken();
+                if (map.containsKey(s)) {
+                    map.replace(s, map.get(s) + 1);
+                }
+
+                total++;
             }
         }
 
-        ArrayList<String> a = new ArrayList<>(set);
-        a.sort(Comparator.reverseOrder());
-        for (int i = 0; i < a.size(); i++) {
-            bw.write(a.get(i));
-            if (i != a.size() - 1) {
-                bw.write("\n");
-            }
+        for (int i = 0; i < print.length; i++) {
+            double temp = (double) map.get(print[i]) / (double) total;
+            bw.write(print[i] + " " + map.get(print[i]) + " " + String.format("%.2f", temp));
+            bw.write("\n");
         }
 
+        bw.write("Total " + total + " 1.00");
         bw.flush();
     }
 }

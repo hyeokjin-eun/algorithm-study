@@ -4,14 +4,16 @@ import java.io.*;
 import java.util.*;
 
 // link
-// https://www.acmicpc.net/problem/7785
-public class Backjun7785 {
+// https://www.acmicpc.net/problem/6198
+public class Backjun6198 {
     private static final String[] array = {
+            "6\n" +
+            "10\n" +
+            "3\n" +
+            "7\n" +
             "4\n" +
-            "Baha enter\n" +
-            "Askar enter\n" +
-            "Baha leave\n" +
-            "Artem enter"
+            "12\n" +
+            "2"
     };
 
     public static void main (String[] args) throws IOException {
@@ -32,25 +34,39 @@ public class Backjun7785 {
         BufferedReader br = new BufferedReader(isr);
         BufferedWriter bw = new BufferedWriter(osw);
         int N = Integer.parseInt(br.readLine());
-        HashSet<String> set = new HashSet<>();
+        Stack<Pair> stack = new Stack<>();
+        long answer = 0;
         for (int i = 0; i < N; i++) {
-            String[] s = br.readLine().split(" ");
-            if (set.contains(s[0])) {
-                set.remove(s[0]);
+            int h = Integer.parseInt(br.readLine());
+            if (stack.isEmpty()) {
+                stack.push(new Pair(h, i));
             } else {
-                set.add(s[0]);
+                while (!stack.isEmpty() && stack.peek().h <= h) {
+                    Pair pair = stack.pop();
+                    answer += i - pair.i - 1;
+                }
+
+                stack.push(new Pair(h, i));
             }
         }
 
-        ArrayList<String> a = new ArrayList<>(set);
-        a.sort(Comparator.reverseOrder());
-        for (int i = 0; i < a.size(); i++) {
-            bw.write(a.get(i));
-            if (i != a.size() - 1) {
-                bw.write("\n");
-            }
+        while (!stack.isEmpty()) {
+            Pair pair = stack.pop();
+            answer += N - pair.i - 1;
         }
 
+        bw.write(String.valueOf(answer));
         bw.flush();
     }
+
+    private static class Pair {
+        int h;
+        int i;
+        public Pair(int h, int i) {
+            this.h = h;
+            this.i = i;
+        }
+    }
 }
+
+

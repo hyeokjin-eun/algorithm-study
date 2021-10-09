@@ -4,14 +4,14 @@ import java.io.*;
 import java.util.*;
 
 // link
-// https://www.acmicpc.net/problem/7785
-public class Backjun7785 {
+// https://www.acmicpc.net/problem/2358
+public class Backjun2358 {
     private static final String[] array = {
             "4\n" +
-            "Baha enter\n" +
-            "Askar enter\n" +
-            "Baha leave\n" +
-            "Artem enter"
+            "0 0\n" +
+            "10 10\n" +
+            "0 10\n" +
+            "10 0"
     };
 
     public static void main (String[] args) throws IOException {
@@ -32,25 +32,37 @@ public class Backjun7785 {
         BufferedReader br = new BufferedReader(isr);
         BufferedWriter bw = new BufferedWriter(osw);
         int N = Integer.parseInt(br.readLine());
-        HashSet<String> set = new HashSet<>();
+        int[][] a = new int[N][2];
         for (int i = 0; i < N; i++) {
-            String[] s = br.readLine().split(" ");
-            if (set.contains(s[0])) {
-                set.remove(s[0]);
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            a[i][0] = Integer.parseInt(st.nextToken());
+            a[i][1] = Integer.parseInt(st.nextToken());
+        }
+
+        int answer = 0;
+        HashMap<Integer, Boolean> x = new HashMap<>();
+        HashMap<Integer, Boolean> y = new HashMap<>();
+        for (int i = 0; i < N; i++) {
+            if (x.containsKey(a[i][0])) {
+                if (!x.get(a[i][0])) {
+                    x.replace(a[i][0], true);
+                    answer++;
+                }
             } else {
-                set.add(s[0]);
+                x.put(a[i][0], false);
+            }
+
+            if (y.containsKey(a[i][1])) {
+                if (!y.get(a[i][1])) {
+                    y.replace(a[i][1], true);
+                    answer++;
+                }
+            } else {
+                y.put(a[i][1], false);
             }
         }
 
-        ArrayList<String> a = new ArrayList<>(set);
-        a.sort(Comparator.reverseOrder());
-        for (int i = 0; i < a.size(); i++) {
-            bw.write(a.get(i));
-            if (i != a.size() - 1) {
-                bw.write("\n");
-            }
-        }
-
+        bw.write(String.valueOf(answer));
         bw.flush();
     }
 }

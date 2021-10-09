@@ -4,14 +4,15 @@ import java.io.*;
 import java.util.*;
 
 // link
-// https://www.acmicpc.net/problem/7785
-public class Backjun7785 {
+// https://www.acmicpc.net/problem/1302
+public class Backjun1302 {
     private static final String[] array = {
-            "4\n" +
-            "Baha enter\n" +
-            "Askar enter\n" +
-            "Baha leave\n" +
-            "Artem enter"
+            "5\n" +
+            "top\n" +
+            "top\n" +
+            "top\n" +
+            "top\n" +
+            "kimtop"
     };
 
     public static void main (String[] args) throws IOException {
@@ -31,26 +32,28 @@ public class Backjun7785 {
         OutputStreamWriter osw = new OutputStreamWriter(System.out);
         BufferedReader br = new BufferedReader(isr);
         BufferedWriter bw = new BufferedWriter(osw);
-        int N = Integer.parseInt(br.readLine());
-        HashSet<String> set = new HashSet<>();
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        HashMap<String, Integer> map = new HashMap<>();
         for (int i = 0; i < N; i++) {
-            String[] s = br.readLine().split(" ");
-            if (set.contains(s[0])) {
-                set.remove(s[0]);
+            String s = br.readLine();
+            if (map.containsKey(s)) {
+                map.replace(s, map.get(s) + 1);
             } else {
-                set.add(s[0]);
+                map.put(s, 1);
             }
         }
 
-        ArrayList<String> a = new ArrayList<>(set);
-        a.sort(Comparator.reverseOrder());
-        for (int i = 0; i < a.size(); i++) {
-            bw.write(a.get(i));
-            if (i != a.size() - 1) {
-                bw.write("\n");
+        ArrayList<String> a = new ArrayList<>(map.keySet());
+        a.sort((o1, o2) -> {
+            if (map.get(o1) == map.get(o2)) {
+                return o1.compareTo(o2);
             }
-        }
 
+            return Integer.compare(map.get(o1), map.get(o2)) * -1;
+        });
+
+        bw.write(String.valueOf(a.get(0)));
         bw.flush();
     }
 }

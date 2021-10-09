@@ -4,14 +4,14 @@ import java.io.*;
 import java.util.*;
 
 // link
-// https://www.acmicpc.net/problem/7785
-public class Backjun7785 {
+// https://www.acmicpc.net/problem/2776
+public class Backjun2776 {
     private static final String[] array = {
-            "4\n" +
-            "Baha enter\n" +
-            "Askar enter\n" +
-            "Baha leave\n" +
-            "Artem enter"
+            "1\n" +
+            "5\n" +
+            "4 1 5 2 3\n" +
+            "5\n" +
+            "1 3 7 9 5"
     };
 
     public static void main (String[] args) throws IOException {
@@ -31,22 +31,21 @@ public class Backjun7785 {
         OutputStreamWriter osw = new OutputStreamWriter(System.out);
         BufferedReader br = new BufferedReader(isr);
         BufferedWriter bw = new BufferedWriter(osw);
-        int N = Integer.parseInt(br.readLine());
-        HashSet<String> set = new HashSet<>();
-        for (int i = 0; i < N; i++) {
-            String[] s = br.readLine().split(" ");
-            if (set.contains(s[0])) {
-                set.remove(s[0]);
-            } else {
-                set.add(s[0]);
+        int T = Integer.parseInt(br.readLine());
+        for (int t = 0; t < T; t++) {
+            int N = Integer.parseInt(br.readLine());
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            HashSet<Integer> a = new HashSet<>();
+            for (int i = 0; i < N; i++) {
+                int num = Integer.parseInt(st.nextToken());
+                a.add(num);
             }
-        }
 
-        ArrayList<String> a = new ArrayList<>(set);
-        a.sort(Comparator.reverseOrder());
-        for (int i = 0; i < a.size(); i++) {
-            bw.write(a.get(i));
-            if (i != a.size() - 1) {
+            int M = Integer.parseInt(br.readLine());
+            st = new StringTokenizer(br.readLine());
+            for (int i = 0; i < M; i++) {
+                int num = Integer.parseInt(st.nextToken());
+                bw.write(a.contains(num) ? "1" : "0");
                 bw.write("\n");
             }
         }
@@ -54,3 +53,4 @@ public class Backjun7785 {
         bw.flush();
     }
 }
+

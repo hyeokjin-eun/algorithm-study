@@ -4,14 +4,10 @@ import java.io.*;
 import java.util.*;
 
 // link
-// https://www.acmicpc.net/problem/7785
-public class Backjun7785 {
+// https://www.acmicpc.net/problem/2164
+public class Backjun2164 {
     private static final String[] array = {
-            "4\n" +
-            "Baha enter\n" +
-            "Askar enter\n" +
-            "Baha leave\n" +
-            "Artem enter"
+            "6"
     };
 
     public static void main (String[] args) throws IOException {
@@ -32,25 +28,17 @@ public class Backjun7785 {
         BufferedReader br = new BufferedReader(isr);
         BufferedWriter bw = new BufferedWriter(osw);
         int N = Integer.parseInt(br.readLine());
-        HashSet<String> set = new HashSet<>();
+        Queue<Integer> queue = new LinkedList<>();
         for (int i = 0; i < N; i++) {
-            String[] s = br.readLine().split(" ");
-            if (set.contains(s[0])) {
-                set.remove(s[0]);
-            } else {
-                set.add(s[0]);
-            }
+            queue.offer(i + 1);
         }
 
-        ArrayList<String> a = new ArrayList<>(set);
-        a.sort(Comparator.reverseOrder());
-        for (int i = 0; i < a.size(); i++) {
-            bw.write(a.get(i));
-            if (i != a.size() - 1) {
-                bw.write("\n");
-            }
+        while (queue.size() != 1) {
+            queue.poll();
+            queue.offer(queue.poll());
         }
 
+        bw.write(String.valueOf(queue.poll()));
         bw.flush();
     }
 }

@@ -4,14 +4,15 @@ import java.io.*;
 import java.util.*;
 
 // link
-// https://www.acmicpc.net/problem/7785
-public class Backjun7785 {
+// https://www.acmicpc.net/problem/1544
+public class Backjun1544 {
     private static final String[] array = {
-            "4\n" +
-            "Baha enter\n" +
-            "Askar enter\n" +
-            "Baha leave\n" +
-            "Artem enter"
+            "5\n" +
+            "picture\n" +
+            "turepic\n" +
+            "icturep\n" +
+            "word\n" +
+            "ordw"
     };
 
     public static void main (String[] args) throws IOException {
@@ -32,25 +33,36 @@ public class Backjun7785 {
         BufferedReader br = new BufferedReader(isr);
         BufferedWriter bw = new BufferedWriter(osw);
         int N = Integer.parseInt(br.readLine());
-        HashSet<String> set = new HashSet<>();
+        String[] s = new String[N];
         for (int i = 0; i < N; i++) {
-            String[] s = br.readLine().split(" ");
-            if (set.contains(s[0])) {
-                set.remove(s[0]);
+            char[] c = br.readLine().toCharArray();
+            s[i] = new String(c);
+        }
+
+        int answer = 0;
+        HashSet<String> set = new HashSet<>();
+        for (int i = 0; i < s.length; i++) {
+            if (set.isEmpty()) {
+                answer++;
+                addSet(s[i], set);
             } else {
-                set.add(s[0]);
+                if (!set.contains(s[i])) {
+                    answer++;
+                    addSet(s[i], set);
+                }
             }
         }
 
-        ArrayList<String> a = new ArrayList<>(set);
-        a.sort(Comparator.reverseOrder());
-        for (int i = 0; i < a.size(); i++) {
-            bw.write(a.get(i));
-            if (i != a.size() - 1) {
-                bw.write("\n");
-            }
-        }
-
+        bw.write(String.valueOf(answer));
         bw.flush();
+    }
+
+    private static void addSet(String s, HashSet<String> set) {
+        for (int j = 0; j < s.length(); j++) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(s, j, s.length());
+            sb.append(s, 0, j);
+            set.add(sb.toString());
+        }
     }
 }
