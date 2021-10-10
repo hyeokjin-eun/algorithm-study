@@ -18,7 +18,16 @@ public class Backjun14888 {
             "2 1 1 1",
             "5\n" +
             "100 100 100 100 10\n" +
-            "0 0 4 0"
+            "0 0 4 0",
+            "2\n" +
+            "5 6\n" +
+            "1 1 1 1",
+            "3\n" +
+            "3 4 5\n" +
+            "2 1 2 1",
+            "6\n" +
+            "1 2 3 4 5 6\n" +
+            "3 2 1 1"
     };
 
     public static void main(String[] args) throws IOException {

@@ -60,6 +60,8 @@ public class Backjun6603 {
 
                 bw.write("\n");
             } while (prevPermutation(selected));
+
+            bw.write("\n");
         }
 
         bw.flush();
