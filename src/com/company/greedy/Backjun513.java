@@ -1,23 +1,22 @@
-package com.company.sort;
+package com.company.greedy;
 
 import java.io.*;
 import java.util.*;
 
 // link
-// https://www.acmicpc.net/problem/11399
-public class Backjun11399 {
+// https://code.plus/lecture/513
+public class Backjun513 {
     private static final String[] array = {
-            "5\n" +
-            "3 1 4 3 2"
+            "6\n" +
+            "10 20 10 30 20 50"
     };
 
-    public static void main(String[] args) throws IOException {
+    public static void main (String[] args) throws IOException {
         for (int i = 0; i < array.length; i++) {
             System.out.println("===== Test Case " + i + " Start =====");
             long before = System.currentTimeMillis();
             solution(array[i]);
             long after = System.currentTimeMillis();
-
             System.out.println();
             System.out.println("===== Time : " + (after - before) + "   =====");
             System.out.println("===== Test Case " + i + " End   =====");
@@ -29,25 +28,35 @@ public class Backjun11399 {
         OutputStreamWriter osw = new OutputStreamWriter(System.out);
         BufferedReader br = new BufferedReader(isr);
         BufferedWriter bw = new BufferedWriter(osw);
-        int n = Integer.parseInt(br.readLine());
-        ArrayList<Integer> a = new ArrayList<>(n);
+        int N = Integer.parseInt(br.readLine());
+        int[] a = new int[N];
+        int length = 0;
         StringTokenizer st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < n; i++) {
-            a.add(Integer.parseInt(st.nextToken()));
-        }
-
-        Collections.sort(a);
-        int answer = 0;
-        for (int i = 0; i < n; i++) {
-            int temp = 0;
-            for (int j = i; 0 <= j; j--) {
-                temp += a.get(j);
+        for (int i = 0; i < N; i++) {
+            int num = Integer.parseInt(st.nextToken());
+            int p = go(length, num, a);
+            a[p] = num;
+            if (p == length) {
+                length++;
             }
-
-            answer += temp;
         }
 
-        bw.write(String.valueOf(answer));
+        bw.write(String.valueOf(length));
         bw.flush();
+    }
+
+    private static int go(int length, int k, int[] a) {
+        int l = 0;
+        int r = length;
+        while (l < r) {
+            int mid = (l + r) / 2;
+            if (k <= a[mid]) {
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        }
+
+        return l;
     }
 }

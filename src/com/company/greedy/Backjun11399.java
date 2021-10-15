@@ -1,22 +1,14 @@
-package com.company.sort;
+package com.company.greedy;
 
 import java.io.*;
 import java.util.*;
 
-public class Backjun1931 {
+// link
+// https://www.acmicpc.net/problem/11399
+public class Backjun11399 {
     private static final String[] array = {
-            "11\n" +
-            "1 4\n" +
-            "3 5\n" +
-            "0 6\n" +
-            "5 7\n" +
-            "3 8\n" +
-            "5 9\n" +
-            "6 10\n" +
-            "8 11\n" +
-            "8 12\n" +
-            "2 13\n" +
-            "12 14"
+            "5\n" +
+            "3 1 4 3 2"
     };
 
     public static void main(String[] args) throws IOException {
@@ -38,28 +30,21 @@ public class Backjun1931 {
         BufferedReader br = new BufferedReader(isr);
         BufferedWriter bw = new BufferedWriter(osw);
         int n = Integer.parseInt(br.readLine());
-        int[][] a = new int[n][2];
+        ArrayList<Integer> a = new ArrayList<>(n);
+        StringTokenizer st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            a[i][0] = Integer.parseInt(st.nextToken());
-            a[i][1] = Integer.parseInt(st.nextToken());
+            a.add(Integer.parseInt(st.nextToken()));
         }
 
-        Arrays.sort(a, (o1, o2) -> {
-            if (o1[1] == o2[1]) {
-                return o1[0] - o2[0];
-            }
-
-            return o1[1] - o2[1];
-        });
-
+        Collections.sort(a);
         int answer = 0;
-        int end = 0;
         for (int i = 0; i < n; i++) {
-            if (end <= a[i][0]) {
-                end = a[i][1];
-                answer++;
+            int temp = 0;
+            for (int j = i; 0 <= j; j--) {
+                temp += a.get(j);
             }
+
+            answer += temp;
         }
 
         bw.write(String.valueOf(answer));
