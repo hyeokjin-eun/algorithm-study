@@ -3,12 +3,16 @@ package com.company.greedy;
 import java.io.*;
 import java.util.*;
 
-// link
-// https://www.acmicpc.net/problem/12970
-public class Backjun12970 {
+public class Backjun12904 {
     private static final String[] array = {
-            "3 2",
-            "5 8"
+            "B\n" +
+            "ABBA",
+            "AB\n" +
+            "ABB",
+            "A\n" +
+            "BBAB",
+            "A\n" +
+            "BABB"
     };
 
     public static void main (String[] args) throws IOException {
@@ -28,40 +32,23 @@ public class Backjun12970 {
         OutputStreamWriter osw = new OutputStreamWriter(System.out);
         BufferedReader br = new BufferedReader(isr);
         BufferedWriter bw = new BufferedWriter(osw);
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
-        StringBuilder sb = new StringBuilder();
-        for (int a = 0; a <= N; a++) {
-            int b = N - a;
-            if (a * b < K) {
-                continue;
+        String s = br.readLine();
+        String e = br.readLine();
+        StringBuilder temp = new StringBuilder(e);
+        for (int i = e.length() - 1; s.length() <= i; i--) {
+            char end = temp.toString().charAt(i);
+            if (end == 'B') {
+                temp.deleteCharAt(i);
+                temp.reverse();
+            } else {
+                temp.deleteCharAt(i);
             }
-
-            int[] cnt = new int[b + 1];
-            for (int i = 0; i < a; i++) {
-                int x = Math.min(b, K);
-                cnt[x] += 1;
-                K -= x;
-            }
-
-            for (int i = b; 0 <= i; i--) {
-                for (int j = 0; j < cnt[i]; j++) {
-                    sb.append("A");
-                }
-
-                if (0 < i) {
-                    sb.append("B");
-                }
-            }
-
-            break;
         }
 
-        if (sb.length() == 0) {
-            bw.write(String.valueOf(-1));
+        if (s.equals(temp.toString())) {
+            bw.write(String.valueOf(1));
         } else {
-            bw.write(sb.toString());
+            bw.write(String.valueOf(0));
         }
 
         bw.flush();
