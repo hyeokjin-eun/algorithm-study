@@ -10,7 +10,9 @@ public class Backjun16637 {
             "9\n" +
             "3+8*7-9*2",
             "19\n" +
-            "1*2+3*4*5-6*7*8*9*0"
+            "1*2+3*4*5-6*7*8*9*0",
+            "5\n" +
+            "8*3+5"
     };
 
     public static void main (String[] args) throws IOException {
@@ -59,7 +61,10 @@ public class Backjun16637 {
             }
 
             Pair[] b = new Pair[N];
-            System.arraycopy(a, 0, b, 0, N);
+            for (int j = 0; j < N; j++) {
+                b[j] = new Pair(a[j].num, a[j].op);
+            }
+
             for (int j = 0; j < m; j++) {
                 if ((i & (1 << j)) > 0) {
                     int k = 2 * j + 1;
