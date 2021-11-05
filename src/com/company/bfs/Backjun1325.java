@@ -34,45 +34,49 @@ public class Backjun1325 {
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
-        ArrayList<ArrayList<Integer>> a = new ArrayList<>();
+        List<Integer>[] a = new ArrayList[N];
         for (int i = 0; i < N; i++) {
-            a.add(new ArrayList<>());
+            a[i] = new ArrayList<>();
         }
 
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
             int from = Integer.parseInt(st.nextToken()) - 1;
             int to = Integer.parseInt(st.nextToken()) - 1;
-            a.get(from).add(to);
-            a.get(to).add(from);
+            a[from].add(to);
         }
 
-        int answer = 0;
-        int index = 0;
+        int[] ans = new int[N];
         for (int i = 0; i < N; i++) {
             boolean[] check = new boolean[N];
-            int temp = dfs(i, 0, a, check);
-            if (answer < temp) {
-                answer = temp;
-                index = i + 1;
+            check[i] = true;
+            dfs(i, a, check, ans);
+        }
+
+        int max = 0;
+        for (int i = 0; i < N; i++) {
+            max = Math.max(max, ans[i]);
+        }
+
+        for (int i = 0; i < N; i++) {
+            if (max == ans[i]) {
+                bw.write(String.valueOf(i + 1));
+                if (i != N - 1) {
+                    bw.write(" ");
+                }
             }
         }
 
-        bw.write(String.valueOf(index));
-        bw.write(" ");
-        bw.write(String.valueOf(answer));
         bw.flush();
     }
 
-    private static int dfs(int c, int index, ArrayList<ArrayList<Integer>> a, boolean[] check) {
-        check[c] = true;
-        int answer = index;
-        for (int i = 0; i < a.get(c).size(); i++) {
-            if (!check[a.get(c).get(i)]) {
-                answer = Math.max(dfs(a.get(c).get(i), index + 1, a, check), answer);
+    private static void dfs(int c, List<Integer>[] a, boolean[] check, int[] ans) {
+        for (int i = 0; i < a[c].size(); i++) {
+            if (!check[a[c].get(i)]) {
+                check[a[c].get(i)] = true;
+                ans[a[c].get(i)]++;
+                dfs(a[c].get(i), a, check, ans);
             }
         }
-
-        return answer;
     }
 }
