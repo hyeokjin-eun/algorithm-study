@@ -45,7 +45,7 @@ public class Backjun1755 {
             a.add(new Pair(n, sb.toString()));
         }
 
-        Collections.sort(a, Comparator.comparing(o -> o.e));
+        a.sort(Comparator.comparing(o -> o.e));
 
         for (int i = 0; i < a.size(); i++) {
             bw.write(a.get(i).n);
