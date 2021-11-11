@@ -227,6 +227,7 @@ public class Backjun16985 {
         OutputStreamWriter osw = new OutputStreamWriter(System.out);
         BufferedReader br = new BufferedReader(isr);
         BufferedWriter bw = new BufferedWriter(osw);
+        // 미로 배열
         int[][][] a = new int[n][n][n];
         int[][][] at = new int[n][n][n];
         for (int i = 0; i < n; i++) {
@@ -239,6 +240,7 @@ public class Backjun16985 {
             }
         }
 
+        // 순열용 배열
         int[] d = new int[n];
         int[] dt = new int[n];
         for (int i = 0; i < n; i++) {
@@ -247,11 +249,13 @@ public class Backjun16985 {
         }
 
         int answer = -1;
+        // 순서 섞기
         do {
             for (int i = 0; i < n; i++) {
                 at[dt[i]] = a[d[i]];
             }
 
+            // 미로 회전
             int temp = recursion(0, at);
             if (temp != -1) {
                 if (answer == -1 || temp < answer) {
@@ -295,6 +299,7 @@ public class Backjun16985 {
 
     private static int recursion(int index, int[][][] a) {
         if (index == n) {
+            // 최단 거리 순회
             return bfs(a);
         }
 
