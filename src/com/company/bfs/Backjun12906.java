@@ -6,10 +6,17 @@ import java.util.*;
 // link
 // https://www.acmicpc.net/problem/12906
 public class Backjun12906 {
+    private static ArrayList<String> ans;
     private static final String[] array = {
             "1 A\n" +
             "2 AA\n" +
-            "2 AA"
+            "2 AA",
+            "1 B\n" +
+            "1 C\n" +
+            "1 A",
+            "3 CBA\n" +
+            "0\n" +
+            "0"
     };
 
     public static void main (String[] args) throws IOException {
@@ -43,109 +50,58 @@ public class Backjun12906 {
             }
         }
 
+        int[] cnt = new int[3];
+        for (String temp : array) {
+            for (char c : temp.toCharArray()) {
+                cnt[c - 'A'] += 1;
+            }
+        }
+
+        ans = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            String s = "";
+            for (int j = 0; j < cnt[i]; j++) {
+                s += (char)('A' + i);
+            }
+
+            ans.add(s);
+        }
+
         int answer = bfs(array);
-        System.out.println(answer);
+        bw.write(String.valueOf(answer));
+        bw.flush();
     }
 
     private static int bfs(ArrayList<String> array) {
-        HashSet<Pair> hashSet = new HashSet<>();
-        Queue<Pair> queue = new LinkedList<>();
-        queue.offer(new Pair(sb(array.get(0)), sb(array.get(1)), sb(array.get(2))));
-        Queue<Integer> dist = new LinkedList<>();
-        dist.offer(0);
-        while (!queue.isEmpty() && !queue.isEmpty()) {
-            Pair pair = queue.poll();
-            StringBuilder a = pair.a;
-            StringBuilder b = pair.b;
-            StringBuilder c = pair.c;
-            int d = dist.poll();
-            if (check(pair)) {
-                return d;
-            }
+        HashMap<ArrayList<String>, Integer> map = new HashMap<>();
+        map.put(array, 0);
+        Queue<ArrayList<String>> queue = new LinkedList<>();
+        queue.offer(array);
+        while (!queue.isEmpty()) {
+            ArrayList<String> a = queue.poll();
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (i == j) {
+                        continue;
+                    }
 
-            if (a.toString().length() != 0) {
-                StringBuilder at = new StringBuilder(a);
-                StringBuilder bt = new StringBuilder(b);
-                StringBuilder ct = new StringBuilder(c);
-                char temp = at.charAt(at.toString().length() - 1);
-                at.deleteCharAt(at.toString().length() - 1);
-                bt.append(temp);
-                queue.offer(new Pair(at, bt, ct));
-                dist.offer(d + 1);
-                bt.deleteCharAt(bt.toString().length() - 1);
-                ct.append(temp);
-                queue.offer(new Pair(at, bt, ct));
-                dist.offer(d + 1);
-            }
+                    if (a.get(i).length() == 0) {
+                        continue;
+                    }
 
-            if (b.toString().length() != 0) {
-                StringBuilder at = new StringBuilder(a);
-                StringBuilder bt = new StringBuilder(b);
-                StringBuilder ct = new StringBuilder(c);
-                char temp = bt.charAt(bt.toString().length() - 1);
-                bt.deleteCharAt(bt.toString().length() - 1);
-                at.append(temp);
-                queue.offer(new Pair(at, bt, ct));
-                dist.offer(d + 1);
-                at.deleteCharAt(at.toString().length() - 1);
-                ct.append(temp);
-                queue.offer(new Pair(at, bt, ct));
-                dist.offer(d + 1);
-            }
-
-            if (c.toString().length() != 0) {
-                StringBuilder at = new StringBuilder(a);
-                StringBuilder bt = new StringBuilder(b);
-                StringBuilder ct = new StringBuilder(c);
-                char temp = ct.charAt(ct.toString().length() - 1);
-                ct.deleteCharAt(ct.toString().length() - 1);
-                at.append(temp);
-                queue.offer(new Pair(at, bt, ct));
-                dist.offer(d + 1);
-                at.deleteCharAt(at.toString().length() - 1);
-                bt.append(temp);
-                queue.offer(new Pair(at, bt, ct));
-                dist.offer(d + 1);
+                    String[] next = {a.get(0), a.get(1), a.get(2)};
+                    next[j] += next[i].charAt(next[i].length() - 1);
+                    next[i] = next[i].substring(0, next[i].length() - 1);
+                    ArrayList<String> key = new ArrayList<>(Arrays.asList(next));
+                    if (!map.containsKey(key)) {
+                        map.put(key, map.get(a) + 1);
+                        queue.offer(key);
+                    }
+                }
             }
         }
 
-        return -1;
-    }
-
-    private static class Pair {
-        StringBuilder a;
-        StringBuilder b;
-        StringBuilder c;
-        public Pair(StringBuilder a, StringBuilder b, StringBuilder c) {
-            this.a = a;
-            this.b = b;
-            this.c = c;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            return this.a.equals(obj.toString()) && this.b.equals(obj.toString()) && this.c.equals(obj.toString());
-        }
-    }
-
-    private static StringBuilder sb(String s) {
-        return new StringBuilder(s);
-    }
-
-    private static boolean check(Pair pair) {
-        String a = pair.a.toString();
-        if (a.contains("B")) return false;
-        if (a.contains("C")) return false;
-
-        String b = pair.b.toString();
-        if (b.contains("A")) return false;
-        if (b.contains("C")) return false;
-
-        String c = pair.c.toString();
-        if (c.contains("A")) return false;
-        if (c.contains("B")) return false;
-
-        return true;
+        return map.get(ans);
     }
 
     private static int stoi(String s) {
