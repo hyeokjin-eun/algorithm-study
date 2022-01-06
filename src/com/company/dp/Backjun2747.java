@@ -11,8 +11,6 @@ public class Backjun2747 {
     };
 
     public static void main (String[] args) throws IOException {
-        // TEST
-        test();
         for (int i = 0; i < array.length; i++) {
             System.out.println("===== Test Case " + i + " Start =====");
             long before = System.currentTimeMillis();
@@ -24,10 +22,6 @@ public class Backjun2747 {
         }
     }
 
-    private static void test() {
-
-    }
-
     private static void solution(String input) throws IOException {
         InputStreamReader isr = new InputStreamReader(new ByteArrayInputStream(input.getBytes()));
         OutputStreamWriter osw = new OutputStreamWriter(System.out);
@@ -37,6 +31,12 @@ public class Backjun2747 {
         int[] a = new int[N + 1];
         a[0] = 0;
         a[1] = 1;
+        for (int i = 2; i <= N; i++) {
+            a[i] = a[i - 2] + a[i - 1];
+        }
+
+        bw.write(String.valueOf(a[N]));
+        bw.flush();
     }
 
     private static int stoi(String s) {
