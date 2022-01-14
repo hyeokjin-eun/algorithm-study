@@ -1,14 +1,14 @@
-package com.company.impliment;
+package com.company.implement;
 
 import java.io.*;
 import java.util.*;
 
+
 // link
-// https://www.acmicpc.net/problem/2741
-public class Backjun2741 {
+// https://www.acmicpc.net/problem/1292
+public class Backjun1292 {
     private static final String[] array = {
-            "5",
-            "100000"
+            "3 7"
     };
 
     public static void main (String[] args) throws IOException {
@@ -28,18 +28,29 @@ public class Backjun2741 {
         OutputStreamWriter osw = new OutputStreamWriter(System.out);
         BufferedReader br = new BufferedReader(isr);
         BufferedWriter bw = new BufferedWriter(osw);
-        int N = stoi(br.readLine());
-        for (int i = 0; i < N; i++) {
-            bw.write(String.valueOf(i + 1));
-            if (i != N - 1) {
-                bw.write("\n");
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int A = Integer.parseInt(st.nextToken());
+        int B = Integer.parseInt(st.nextToken());
+        int[] a = new int[B];
+        int i = 1;
+        int index = 0;
+        while (index != B) {
+            for (int j = 0; j < i; j++) {
+                a[index++] = i;
+                if (index == B) {
+                    break;
+                }
             }
+
+            i++;
         }
 
-        bw.flush();
-    }
+        int answer = 0;
+        for (int j = A - 1; j < B; j++) {
+            answer += a[j];
+        }
 
-    private static int stoi(String s) {
-        return Integer.parseInt(s);
+        bw.write(String.valueOf(answer));
+        bw.flush();
     }
 }

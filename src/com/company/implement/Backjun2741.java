@@ -1,18 +1,16 @@
-package com.company.impliment;
+package com.company.implement;
 
 import java.io.*;
-import java.util.*;
 
 // link
-// https://www.acmicpc.net/problem/2441
-public class Backjun2441 {
+// https://www.acmicpc.net/problem/2741
+public class Backjun2741 {
     private static final String[] array = {
             "5",
-            "1",
-            "100"
+            "100000"
     };
 
-    public static void main(String[] args) throws IOException {
+    public static void main (String[] args) throws IOException {
         for (int i = 0; i < array.length; i++) {
             System.out.println("===== Test Case " + i + " Start =====");
             long before = System.currentTimeMillis();
@@ -30,17 +28,11 @@ public class Backjun2441 {
         BufferedReader br = new BufferedReader(isr);
         BufferedWriter bw = new BufferedWriter(osw);
         int N = stoi(br.readLine());
-        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < N; i++) {
-            sb.append("*");
-        }
-
-        bw.write(sb.toString());
-        for (int i = 1; i < N; i++) {
-            bw.write("\n");
-            sb.insert(0, " ");
-            sb.deleteCharAt(N - 1);
-            bw.write(sb.toString());
+            bw.write(String.valueOf(i + 1));
+            if (i != N - 1) {
+                bw.write("\n");
+            }
         }
 
         bw.flush();

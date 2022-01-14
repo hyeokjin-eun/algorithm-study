@@ -1,25 +1,48 @@
-package com.company.impliment;
+package com.company.implement;
 
 import java.io.*;
 import java.util.*;
 
 // link
-// https://www.acmicpc.net/problem/2440
-public class Backjun2440 {
+// https://www.acmicpc.net/problem/10250
+public class Backjun10250 {
+    private static int H;
+    private static int W;
+    private static int N;
     private static final String[] array = {
-            "5",
-            "100"
+            "2\n" +
+            "6 12 10\n" +
+            "30 50 72"
     };
 
     public static void main(String[] args) throws IOException {
+        // TEST
+        test();
         for (int i = 0; i < array.length; i++) {
             System.out.println("===== Test Case " + i + " Start =====");
             long before = System.currentTimeMillis();
             solution(array[i]);
             long after = System.currentTimeMillis();
+
             System.out.println();
             System.out.println("===== Time : " + (after - before) + "   =====");
             System.out.println("===== Test Case " + i + " End   =====");
+        }
+    }
+
+    private static void test() {
+        StringTokenizer st = new StringTokenizer("6 12 6");
+        H = stoi(st.nextToken());
+        W = stoi(st.nextToken());
+        N = stoi(st.nextToken());
+        System.out.println(solve());
+    }
+
+    private static String solve() {
+        if(N % H == 0) {
+            return String.valueOf((H * 100) + (N / H));
+        } else {
+            return String.valueOf((N % H) * 100 + (N / H + 1));
         }
     }
 
@@ -28,14 +51,15 @@ public class Backjun2440 {
         OutputStreamWriter osw = new OutputStreamWriter(System.out);
         BufferedReader br = new BufferedReader(isr);
         BufferedWriter bw = new BufferedWriter(osw);
-        int N = stoi(br.readLine());
-        for (int i = N; 0 < i; i--) {
-            for (int j = 0; j < i; j++) {
-                bw.write("*");
-            }
-
-            if (i != 1) {
-               bw.write("\n");
+        int T = stoi(br.readLine());
+        for (int t = 0; t < T; t++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            H = stoi(st.nextToken());
+            W = stoi(st.nextToken());
+            N = stoi(st.nextToken());
+            bw.write(solve());
+            if (t != T - 1) {
+                bw.write("\n");
             }
         }
 

@@ -1,20 +1,13 @@
-package com.company.impliment;
+package com.company.implement;
 
 import java.io.*;
-import java.util.*;
 
 // link
-// https://www.acmicpc.net/problem/11659
-public class Backjun11659 {
-    private static int N;
-    private static int M;
-    private static int[] a;
+// https://www.acmicpc.net/problem/2440
+public class Backjun2440 {
     private static final String[] array = {
-            "5 3\n" +
-            "5 4 3 2 1\n" +
-            "1 3\n" +
-            "2 4\n" +
-            "5 5"
+            "5",
+            "100"
     };
 
     public static void main(String[] args) throws IOException {
@@ -34,23 +27,14 @@ public class Backjun11659 {
         OutputStreamWriter osw = new OutputStreamWriter(System.out);
         BufferedReader br = new BufferedReader(isr);
         BufferedWriter bw = new BufferedWriter(osw);
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        N = stoi(st.nextToken());
-        M = stoi(st.nextToken());
-        a = new int[N + 1];
-        a[0] = 0;
-        st = new StringTokenizer(br.readLine());
-        for (int i = 1; i <= N; i++) {
-            a[i] = a[i - 1] + stoi(st.nextToken());
-        }
+        int N = stoi(br.readLine());
+        for (int i = N; 0 < i; i--) {
+            for (int j = 0; j < i; j++) {
+                bw.write("*");
+            }
 
-        for (int i = 0; i < M; i++) {
-            st = new StringTokenizer(br.readLine());
-            int n1 = stoi(st.nextToken());
-            int n2 = stoi(st.nextToken());
-            bw.write(String.valueOf(a[n2] - a[n1 - 1]));
-            if (i != M - 1) {
-                bw.write("\n");
+            if (i != 1) {
+               bw.write("\n");
             }
         }
 

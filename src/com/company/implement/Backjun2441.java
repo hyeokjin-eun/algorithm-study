@@ -1,17 +1,17 @@
-package com.company.impliment;
+package com.company.implement;
 
 import java.io.*;
-import java.util.*;
-
 
 // link
-// https://www.acmicpc.net/problem/1292
-public class Backjun1292 {
+// https://www.acmicpc.net/problem/2441
+public class Backjun2441 {
     private static final String[] array = {
-            "3 7"
+            "5",
+            "1",
+            "100"
     };
 
-    public static void main (String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
         for (int i = 0; i < array.length; i++) {
             System.out.println("===== Test Case " + i + " Start =====");
             long before = System.currentTimeMillis();
@@ -28,29 +28,24 @@ public class Backjun1292 {
         OutputStreamWriter osw = new OutputStreamWriter(System.out);
         BufferedReader br = new BufferedReader(isr);
         BufferedWriter bw = new BufferedWriter(osw);
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int A = Integer.parseInt(st.nextToken());
-        int B = Integer.parseInt(st.nextToken());
-        int[] a = new int[B];
-        int i = 1;
-        int index = 0;
-        while (index != B) {
-            for (int j = 0; j < i; j++) {
-                a[index++] = i;
-                if (index == B) {
-                    break;
-                }
-            }
-
-            i++;
+        int N = stoi(br.readLine());
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < N; i++) {
+            sb.append("*");
         }
 
-        int answer = 0;
-        for (int j = A - 1; j < B; j++) {
-            answer += a[j];
+        bw.write(sb.toString());
+        for (int i = 1; i < N; i++) {
+            bw.write("\n");
+            sb.insert(0, " ");
+            sb.deleteCharAt(N - 1);
+            bw.write(sb.toString());
         }
 
-        bw.write(String.valueOf(answer));
         bw.flush();
+    }
+
+    private static int stoi(String s) {
+        return Integer.parseInt(s);
     }
 }
