@@ -3,6 +3,8 @@ package com.company.bf;
 import java.io.*;
 import java.util.*;
 
+// link
+// https://www.acmicpc.net/problem/2303
 public class Backjun2303 {
     private static IOBuffered ioBuffered;
     private static int N;
