@@ -55,15 +55,12 @@ public class Backjun1865 {
         answer = new boolean[testCase];
         for (int i = 0; i < testCase; i++) {
             answer[i] = getAnswer();
-            System.out.println();
         }
     }
 
     private static boolean getAnswer() throws IOException {
         setInputData();
-        bellmanFord(0);
-
-        return false;
+        return searchAllCity();
     }
 
     private static void setInputData() throws IOException {
@@ -111,20 +108,52 @@ public class Backjun1865 {
             StringTokenizer st = new StringTokenizer(ioBuffered.readLine());
             int start = stoi(st.nextToken()) - 1;
             int end = stoi(st.nextToken()) - 1;
-            int time = reverceTime(st.nextToken());
+            int time = reverseTime(st.nextToken());
             cityList.get(start).add(Route.of(end, time));
         }
     }
 
-    private static int reverceTime(String s) {
+    private static int reverseTime(String s) {
         return stoi(s) * -1;
     }
 
-    private static void bellmanFord(final int start) {
+    /**
+     * BellmanFord algorithm
+     * link : https://ratsgo.github.io/data%20structure&algorithm/2017/11/27/bellmanford/
+     */
+    private static boolean bellmanFord(final int start) {
         int[] times = new int[city];
         Arrays.fill(times, Integer.MAX_VALUE);
         times[start] = 0;
+        for (int i = 0; i < city - 1; i++) {
+            if (!setShortestDist(times)) break;
+        }
 
+        return times[start] < 0;
+    }
+
+    private static boolean setShortestDist(int[] times) {
+        boolean ok = false;
+        for (int j = 0; j < city; j++) {
+            for (Route route : cityList.get(j)) {
+                int end = route.getEnd();
+                int time = route.getTime();
+                if (times[j] != Integer.MAX_VALUE && times[end] > times[j] + time) {
+                    times[end] = times[j] + time;
+                    ok = true;
+                }
+            }
+        }
+        
+        return ok;
+    }
+
+    private static boolean searchAllCity() {
+        for (int i = 0; i < city; i++) {
+            if (bellmanFord(i)) return true;
+        }
+
+        return false;
     }
 
     private static void printOutputData() throws IOException {
