@@ -7,12 +7,7 @@ import java.util.*;
 // https://www.acmicpc.net/problem/1865
 public class Backjun1865 {
     private static IOBuffered ioBuffered;
-    private static int testCase;
     private static boolean[] answer;
-    private static int city;
-    private static int road;
-    private static int wormhole;
-    private static ArrayList<ArrayList<Route>> cityList;
     private static final String[] array = {
             "2\n" +
             "3 3 1\n" +
@@ -27,12 +22,10 @@ public class Backjun1865 {
     };
 
     public static void main(String[] args) throws IOException {
-        // TEST
-        test();
         for (int i = 0; i < array.length; i++) {
             System.out.println("===== Test Case " + i + " Start =====");
             long before = System.currentTimeMillis();
-            solution(array[i]);
+            Solution.create().solution(array[i]);
             long after = System.currentTimeMillis();
             System.out.println();
             System.out.println("===== Time : " + (after - before) + "   =====");
@@ -40,124 +33,144 @@ public class Backjun1865 {
         }
     }
 
-    private static void test() {
+    private static class Solution {
+        private final int INF = Integer.MAX_VALUE;
+        private int testCase;
+        private int city;
+        private int road;
+        private int wormhole;
+        private ArrayList<ArrayList<Route>> cityList;
 
-    }
-
-    private static void solution(String input) throws IOException {
-        ioBuffered = IOBuffered.create(input);
-        setAnswers();
-        printOutputData();
-    }
-
-    private static void setAnswers() throws IOException {
-        testCase = stoi(ioBuffered.readLine());
-        answer = new boolean[testCase];
-        for (int i = 0; i < testCase; i++) {
-            answer[i] = getAnswer();
-        }
-    }
-
-    private static boolean getAnswer() throws IOException {
-        setInputData();
-        return searchAllCity();
-    }
-
-    private static void setInputData() throws IOException {
-        StringTokenizer st = new StringTokenizer(ioBuffered.readLine());
-        city = stoi(st.nextToken());
-        road = stoi(st.nextToken());
-        wormhole = stoi(st.nextToken());
-        setCityList();
-    }
-
-    private static int stoi(String s) {
-        return Integer.parseInt(s);
-    }
-
-    private static void setCityList() throws IOException {
-        createCityList();
-        setCity();
-    }
-
-    private static void createCityList() {
-        cityList = new ArrayList<>();
-        for (int i = 0; i < city; i++) {
-            cityList.add(new ArrayList<>());
-        }
-    }
-
-    private static void setCity() throws IOException {
-        setRoad();
-        setWormhole();
-    }
-
-    private static void setRoad() throws IOException {
-        for (int i = 0; i < road; i++) {
-            StringTokenizer st = new StringTokenizer(ioBuffered.readLine());
-            int start = stoi(st.nextToken()) - 1;
-            int end = stoi(st.nextToken()) - 1;
-            int time = stoi(st.nextToken());
-            cityList.get(start).add(Route.of(end, time));
-            cityList.get(end).add(Route.of(start, time));
-        }
-    }
-
-    private static void setWormhole() throws IOException {
-        for (int i = 0; i < wormhole; i++) {
-            StringTokenizer st = new StringTokenizer(ioBuffered.readLine());
-            int start = stoi(st.nextToken()) - 1;
-            int end = stoi(st.nextToken()) - 1;
-            int time = reverseTime(st.nextToken());
-            cityList.get(start).add(Route.of(end, time));
-        }
-    }
-
-    private static int reverseTime(String s) {
-        return stoi(s) * -1;
-    }
-
-    /**
-     * BellmanFord algorithm
-     * link : https://ratsgo.github.io/data%20structure&algorithm/2017/11/27/bellmanford/
-     */
-    private static boolean bellmanFord(final int start) {
-        int[] times = new int[city];
-        Arrays.fill(times, Integer.MAX_VALUE);
-        times[start] = 0;
-        for (int i = 0; i < city - 1; i++) {
-            if (!setShortestDist(times)) break;
+        private Solution() {
         }
 
-        return times[start] < 0;
-    }
+        public static Solution create(){
+            return new Solution();
+        }
 
-    private static boolean setShortestDist(int[] times) {
-        boolean ok = false;
-        for (int j = 0; j < city; j++) {
-            for (Route route : cityList.get(j)) {
-                int end = route.getEnd();
-                int time = route.getTime();
-                if (times[j] != Integer.MAX_VALUE && times[end] > times[j] + time) {
-                    times[end] = times[j] + time;
-                    ok = true;
-                }
+        public void solution(String input) throws IOException {
+            ioBuffered = IOBuffered.create(input);
+            setAnswers();
+            printOutputData();
+        }
+
+        private void setAnswers() throws IOException {
+            testCase = stoi(ioBuffered.readLine());
+            answer = new boolean[testCase];
+            for (int i = 0; i < testCase; i++) {
+                answer[i] = getAnswer();
             }
         }
-        
-        return ok;
-    }
 
-    private static boolean searchAllCity() {
-        for (int i = 0; i < city; i++) {
-            if (bellmanFord(i)) return true;
+        private boolean getAnswer() throws IOException {
+            setInputData();
+            return searchAllCity();
         }
 
-        return false;
-    }
+        private void setInputData() throws IOException {
+            StringTokenizer st = new StringTokenizer(ioBuffered.readLine());
+            city = stoi(st.nextToken());
+            road = stoi(st.nextToken());
+            wormhole = stoi(st.nextToken());
+            setCityList();
+        }
 
-    private static void printOutputData() throws IOException {
-        ioBuffered.print(testCase, answer);
+        private int stoi(String s) {
+            return Integer.parseInt(s);
+        }
+
+        private void setCityList() throws IOException {
+            createCityList();
+            setCity();
+        }
+
+        private void createCityList() {
+            cityList = new ArrayList<>();
+            for (int i = 0; i < city; i++) {
+                cityList.add(new ArrayList<>());
+            }
+        }
+
+        private void setCity() throws IOException {
+            setRoad();
+            setWormhole();
+        }
+
+        private void setRoad() throws IOException {
+            for (int i = 0; i < road; i++) {
+                StringTokenizer st = new StringTokenizer(ioBuffered.readLine());
+                int start = stoi(st.nextToken()) - 1;
+                int end = stoi(st.nextToken()) - 1;
+                int time = stoi(st.nextToken());
+                cityList.get(start).add(Route.of(end, time));
+                cityList.get(end).add(Route.of(start, time));
+            }
+        }
+
+        private void setWormhole() throws IOException {
+            for (int i = 0; i < wormhole; i++) {
+                StringTokenizer st = new StringTokenizer(ioBuffered.readLine());
+                int start = stoi(st.nextToken()) - 1;
+                int end = stoi(st.nextToken()) - 1;
+                int time = reverseTime(st.nextToken());
+                cityList.get(start).add(Route.of(end, time));
+            }
+        }
+
+        private int reverseTime(String s) {
+            return stoi(s) * -1;
+        }
+
+        private boolean searchAllCity() {
+            for (int i = 0; i < city; i++) {
+                if (bellmanFord(i)) return true;
+            }
+
+            return false;
+        }
+
+        /**
+         * BellmanFord algorithm
+         * reference : https://ratsgo.github.io/data%20structure&algorithm/2017/11/27/bellmanford/
+         */
+        private boolean bellmanFord(final int start) {
+            int[] times = new int[city];
+            Arrays.fill(times, INF);
+            times[start] = 0;
+            for (int i = 0; i < city - 1; i++) {
+                if (!setShortestDist(times)) break;
+            }
+
+            return times[start] < 0;
+        }
+
+        private boolean setShortestDist(int[] times) {
+            boolean ok = false;
+            for (int j = 0; j < city; j++) {
+                for (Route route : cityList.get(j)) {
+                    int end = route.getEnd();
+                    int time = route.getTime();
+                    if (isVisit(times[j]) && isShortestDist(times[j] + time, times[end])) {
+                        times[end] = times[j] + time;
+                        ok = true;
+                    }
+                }
+            }
+
+            return ok;
+        }
+
+        private boolean isVisit(int time) {
+            return time != INF;
+        }
+
+        private boolean isShortestDist(int compare, int target) {
+            return target > compare;
+        }
+
+        private void printOutputData() throws IOException {
+            ioBuffered.print(testCase, answer);
+        }
     }
 
     private static class Route {
