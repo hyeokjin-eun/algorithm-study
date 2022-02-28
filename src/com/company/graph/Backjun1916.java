@@ -6,11 +6,11 @@ import java.util.*;
 // link
 // https://www.acmicpc.net/problem/1916
 public class Backjun1916 {
-    private static final int INF =Integer.MAX_VALUE;
+    private static final int INF = Integer.MAX_VALUE;
     private static IOBuffered ioBuffered;
     private static int city;
     private static int bus;
-    private static ArrayList<ArrayList<Route>> cityList;
+    private static ArrayList<Route>[] cityList;
     private static int startCity;
     private static int endCity;
     private static int answer;
@@ -62,9 +62,9 @@ public class Backjun1916 {
     }
 
     private static void createCityList() {
-        cityList = new ArrayList<>();
+        cityList = new ArrayList[city];
         for (int i = 0; i < city; i++) {
-            cityList.add(new ArrayList<>());
+            cityList[i] = new ArrayList<>();
         }
     }
 
@@ -74,8 +74,7 @@ public class Backjun1916 {
             int start = stoi(st.nextToken()) - 1;
             int end = stoi(st.nextToken()) - 1;
             int price = stoi(st.nextToken());
-            cityList.get(start).add(Route.of(end, price));
-            cityList.get(end).add(Route.of(start, price));
+            cityList[start].add(Route.of(end, price));
         }
     }
 
@@ -88,23 +87,26 @@ public class Backjun1916 {
      * reference : https://ratsgo.github.io/data%20structure&algorithm/2017/11/26/dijkstra/
      */
     private static void dijkstra() {
-        Queue<Integer> queue = new LinkedList<>();
-        queue.offer(startCity);
+        PriorityQueue<Route> queue = new PriorityQueue<>();
+        queue.offer(Route.of(startCity, 0));
         int[] dist = new int[city];
         Arrays.fill(dist, INF);
         dist[startCity] = 0;
         while (!queue.isEmpty()) {
-            int cur = queue.poll();
-            for (int i = 0; i < cityList.get(cur).size(); i++) {
-                Route route = cityList.get(cur).get(i);
-                int end = route.getEnd();
-                int price = route.getPrice();
-                if (dist[end] > dist[cur] + price) {
-                    if (dist[end] == INF) {
-                        queue.offer(end);
-                    }
+            Route cRoute = queue.poll();
+            int cEnd = cRoute.getEnd();
+            int cPrice = cRoute.getPrice();
+            if (dist[cEnd] < cPrice) {
+                continue;
+            }
 
-                    dist[end] = dist[cur] + price;
+            for (int i = 0; i < cityList[cEnd].size(); i++) {
+                Route nRoute = cityList[cEnd].get(i);
+                int nEnd = nRoute.getEnd();
+                int nPrice = dist[cEnd] + nRoute.getPrice();
+                if (nPrice < dist[nEnd]) {
+                    dist[nEnd] = nPrice;
+                    queue.offer(Route.of(nEnd, nPrice));
                 }
             }
         }
@@ -116,7 +118,7 @@ public class Backjun1916 {
         ioBuffered.print(answer);
     }
 
-    private static class Route {
+    private static class Route implements Comparable<Route> {
         private final int end;
         private final int price;
 
@@ -135,6 +137,15 @@ public class Backjun1916 {
 
         public int getPrice() {
             return this.price;
+        }
+
+        @Override
+        public int compareTo(Route o) {
+            if (o == this) {
+                return 0;
+            }
+
+            return Integer.compare(this.getPrice(), o.getPrice());
         }
     }
 
