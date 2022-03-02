@@ -6,7 +6,7 @@ import java.util.*;
 // link
 // https://www.acmicpc.net/problem/11404
 public class Backjun11404 {
-    private static final int INF = 100001;
+    private static final int INF = 9999999;
     private static IOBuffered ioBuffered;
     private static int N;
     private static int M;
@@ -83,6 +83,10 @@ public class Backjun11404 {
     private static void floydWarshall() {
         for (int k = 0; k < N; k++) {
             for (int i = 0; i < N; i++) {
+                if (i == k) {
+                    continue;
+                }
+
                 for (int j = 0; j < N; j++) {
                     if (city[i][j] > city[i][k] + city[k][j]) {
                         city[i][j] = city[i][k] + city[k][j];
@@ -124,7 +128,12 @@ public class Backjun11404 {
         private void write(int[][] city) throws IOException {
             for (int i = 0; i < city.length; i++) {
                 for (int j = 0; j < city.length; j++) {
-                    bufferedWriter.write(String.valueOf(city[i][j]));
+                    if (city[i][j] != INF) {
+                        bufferedWriter.write(String.valueOf(city[i][j]));
+                    } else {
+                        bufferedWriter.write(String.valueOf(0));
+                    }
+
                     if (j != city.length - 1) {
                         bufferedWriter.write(" ");
                     }
