@@ -6,16 +6,16 @@ import java.util.Stack;
 // link
 // https://www.acmicpc.net/problem/5002
 public class Backjun5002 {
+    private static IOBuffered ioBuffered;
+    private static int X;
+    private static char[] temp;
+    private static int answer;
     private static final String[] array = {
             "1\n" +
             "MWWMWMMWM",
             "2\n" +
             "WMMMMWWMMMWWMW"
     };
-    private static IOBuffered ioBuffered;
-    private static int X;
-    private static char[] temp;
-    private static int answer;
 
     public static void main (String[] args) throws IOException {
         for (int i = 0; i < array.length; i++) {
@@ -79,7 +79,7 @@ public class Backjun5002 {
                     women++;
                 } else if (!stack.isEmpty() && X < Math.abs(nWomen - man)) {
                     char next = stack.pop();
-                    if (next == 'W') {
+                    if (next == 'M') {
                         int nMan = man + 1;
                         if (Math.abs(nMan - women) <= X) {
                             man++;
