@@ -43,8 +43,6 @@ public class Backjun4358 {
     private static ArrayList<String> answer;
 
     public static void main (String[] args) throws IOException {
-        // TEST
-        test();
         for (int i = 0; i < array.length; i++) {
             System.out.println("===== Test Case " + i + " Start =====");
             long before = System.currentTimeMillis();
@@ -54,10 +52,6 @@ public class Backjun4358 {
             System.out.println("===== Time : " + (after - before) + "   =====");
             System.out.println("===== Test Case " + i + " End   =====");
         }
-    }
-
-    private static void test() {
-
     }
 
     private static void solution(String input) throws IOException {
