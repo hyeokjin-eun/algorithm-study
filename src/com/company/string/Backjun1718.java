@@ -15,11 +15,9 @@ public class Backjun1718 {
     private static IOBuffered ioBuffered;
     private static String str;
     private static String key;
-    private static String \;
+    private static String answer;
 
     public static void main (String[] args) throws IOException {
-        // TEST
-        test();
         for (int i = 0; i < array.length; i++) {
             System.out.println("===== Test Case " + i + " Start =====");
             long before = System.currentTimeMillis();
@@ -31,14 +29,11 @@ public class Backjun1718 {
         }
     }
 
-    private static void test() {
-
-    }
-
     private static void solution(String input) throws IOException {
         ioBuffered = IOBuffered.create(input);
         setData();
         setAnswer();
+        printAnswer();
     }
 
     private static void setData() throws IOException {
@@ -47,8 +42,23 @@ public class Backjun1718 {
     }
 
     private static void setAnswer() {
-        String answer = null;
-        
+        StringBuilder sb = new StringBuilder();
+        char a;
+        for (int i = 0; i < str.length(); i++) {
+            a = str.charAt(i);
+            if (a != ' ') {
+                int k = (key.charAt(i % key.length()) - 96);
+                sb.append((char) (a - k < 97 ? (a - k + 26) : a - k));
+            } else {
+                sb.append(' ');
+            }
+        }
+
+        answer = sb.toString();
+    }
+
+    private static void printAnswer() throws IOException {
+        ioBuffered.print(answer);
     }
 
     private static class IOBuffered {
