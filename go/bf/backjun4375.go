@@ -7,13 +7,13 @@ import (
 	"strings"
 )
 
-var input =
-	"3\n" +
-	"7\n" +
-	"9901\n" +
-	"9999"
-
 func main() {
+	var input =
+		"3\n" +
+		"7\n" +
+		"9901\n" +
+		"9999"
+
 	r := bufio.NewScanner(strings.NewReader(input))
 	w := bufio.NewWriter(os.Stdout)
 
