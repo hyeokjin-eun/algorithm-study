@@ -1,3 +1,6 @@
+// link
+// https://www.acmicpc.net/problem/1237
+
 package main
 
 import "fmt"

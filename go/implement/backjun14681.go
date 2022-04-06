@@ -1,3 +1,6 @@
+// link
+// https://www.acmicpc.net/problem/14681
+
 package main
 
 import (

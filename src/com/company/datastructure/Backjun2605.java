@@ -1,10 +1,7 @@
 package com.company.datastructure;
 
 import java.io.*;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Stack;
-import java.util.StringTokenizer;
+import java.util.*;
 
 // link
 // https://www.acmicpc.net/problem/2605
@@ -48,42 +45,19 @@ public class Backjun2605 {
 
     private static void setAnswer() {
         answer = new int[N];
-        Deque<Integer> deque = new ArrayDeque<>();
-        for (int i = 0; i < N; i++) {
-            if (isFirst(select[i])) {
-                deque.addLast(i + 1);
-            } else {
-                addOrder(deque, i);
-            }
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        for (int i = 0; i < select.length; i++) {
+            int index = linkedList.size() - select[i];
+            linkedList.add(index, i + 1);
         }
 
-        setAnswers(deque);
+        for (int i = 0; i < linkedList.size(); i++) {
+            answer[i] = linkedList.get(i);
+        }
     }
 
     private static int stoi(String s) {
         return Integer.parseInt(s);
-    }
-
-    private static void addOrder(Deque<Integer> deque, int i) {
-        Stack<Integer> stack = new Stack<>();
-        for (int j = 0; j < select[i]; j++) {
-            stack.push(deque.pollFirst());
-        }
-
-        deque.addFirst(i + 1);
-        while (!stack.isEmpty()) {
-            deque.addFirst(stack.pop());
-        }
-    }
-
-    private static boolean isFirst(int num) {
-        return num == 0;
-    }
-
-    private static void setAnswers(Deque<Integer> deque) {
-        for (int i = 0; !deque.isEmpty(); i++) {
-            answer[i] = deque.pollLast();
-        }
     }
 
     private static void printAnswer() throws IOException {
