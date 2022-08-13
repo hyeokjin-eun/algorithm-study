@@ -1,25 +1,22 @@
-package com.company.string;
+package com.company.sort;
 
 import java.io.*;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 // link
-// https://www.acmicpc.net/problem/17478
-public class Backjun17478 {
+// https://www.acmicpc.net/problem/25305
+public class Backjun25305 {
+
     private static final String[] array = {
-            "2",
-            "4"
+            "5 2\n" +
+            "100 76 85 93 98"
     };
     private static IOBuffered ioBuffered;
-    private static int count;
-    private static StringBuilder stringBuilder;
-
-    private static final String STR0 = "어느 한 컴퓨터공학과 학생이 유명한 교수님을 찾아가 물었다.";
-    private static final String STR1 = "\"재귀함수가 뭔가요?\"";
-    private static final String STR2_1 = "\"잘 들어보게. 옛날옛날 한 산 꼭대기에 이세상 모든 지식을 통달한 선인이 있었어.";
-    private static final String STR2_2 = "마을 사람들은 모두 그 선인에게 수많은 질문을 했고, 모두 지혜롭게 대답해 주었지.";
-    private static final String STR2_3 = "그의 답은 대부분 옳았다고 하네. 그런데 어느 날, 그 선인에게 한 선비가 찾아와서 물었어.\"";
-    private static final String STR3 = "\"재귀함수는 자기 자신을 호출하는 함수라네\"";
-    private static final String STR4 = "라고 답변하였지.";
+    private static int N;
+    private static int k;
+    private static int[] scores;
+    private static int answer;
 
     public static void main(String[] args) throws IOException {
         for (int i = 0; i < array.length; i++) {
@@ -42,49 +39,28 @@ public class Backjun17478 {
     }
 
     private static void setData() throws IOException {
-        count = Integer.parseInt(ioBuffered.readLine());
+        StringTokenizer stringTokenizer = new StringTokenizer(ioBuffered.readLine());
+        N = stoi(stringTokenizer.nextToken());
+        k = stoi(stringTokenizer.nextToken());
+
+        stringTokenizer = new StringTokenizer(ioBuffered.readLine());
+        scores = new int[N];
+        for (int i = 0; i < N; i++) {
+            scores[i] = stoi(stringTokenizer.nextToken());
+        }
+    }
+
+    private static int stoi(String s) {
+        return Integer.parseInt(s);
     }
 
     private static void setAnswer() {
-        stringBuilder = new StringBuilder();
-        append(STR0);
-        recursion(0);
-    }
-
-    private static void recursion(int cnt) {
-        if (cnt == count) {
-            appendString(STR1, cnt);
-            appendString(STR3, cnt);
-            appendString(STR4, cnt);
-            return;
-        }
-
-        appendString(STR1, cnt);
-        appendString(STR2_1, cnt);
-        appendString(STR2_2, cnt);
-        appendString(STR2_3, cnt);
-        recursion(cnt + 1);
-        appendString(STR4, cnt);
-    }
-
-    private static void prefix(int cnt) {
-        for (int i = 0; i < cnt; i++) {
-            stringBuilder.append("____");
-        }
-    }
-
-    private static void append(String s) {
-        stringBuilder.append(s);
-        stringBuilder.append("\n");
-    }
-
-    private static void appendString(String s, int cnt) {
-        prefix(cnt);
-        append(s);
+        Arrays.sort(scores);
+        answer = scores[N - k];
     }
 
     private static void printAnswer() throws IOException {
-        ioBuffered.print(stringBuilder.toString());
+        ioBuffered.print(answer);
     }
 
     private static class IOBuffered {
@@ -119,14 +95,14 @@ public class Backjun17478 {
         /**
          * Console Print Out (BufferedWriter.write())
          */
-        public void print(String s) throws IOException {
-            write(s);
+        public void print(int answer) throws IOException {
+            write(answer);
             flush();
         }
 
-        private void write(String s) throws IOException {
+        private void write(int answer) throws IOException {
             //TODO Answer Write Implement
-            bufferedWriter.write(s);
+            bufferedWriter.write(String.valueOf(answer));
         }
 
         private void flush() throws IOException {
