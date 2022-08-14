@@ -3,6 +3,8 @@ package com.company.string;
 import java.io.*;
 import java.util.*;
 
+// link
+// https://www.acmicpc.net/problem/9536
 public class Backjun9536 {
 
     private static final String[] array = {
