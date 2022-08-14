@@ -104,12 +104,15 @@ public class Backjun2638 {
 
     private static boolean check() {
         bfs();
-        boolean is = false;
         int[][] temp = new int[N + 2][M + 2];
-        for (int i = 0; i < N + 2; i++) {
-            temp[i] = Arrays.copyOf(board[i], M + 2);
-        }
+        copyArray(temp, board);
+        boolean is = melt(temp);
+        copyArray(board, temp);
+        return is;
+    }
 
+    private static boolean melt(int[][] temp) {
+        boolean is = false;
         for (int i = 1; i <= N; i++) {
             for (int j = 1; j <= M; j++) {
                 if (board[i][j] == 1) {
@@ -134,23 +137,17 @@ public class Backjun2638 {
                 }
             }
         }
-
-        for (int i = 0; i < N + 2; i++) {
-            board[i] = Arrays.copyOf(temp[i], M + 2);
-        }
-
         return is;
     }
 
-    private static void bfs() {
-        for (int i = 1; i < N + 1; i++) {
-            for (int j = 1; j < M + 1; j++) {
-                if (board[i][j] == 0) {
-                    board[i][j] = 2;
-                }
-            }
+    private static void copyArray(int[][] temp, int[][] board) {
+        for (int i = 0; i < N + 2; i++) {
+            temp[i] = Arrays.copyOf(board[i], M + 2);
         }
+    }
 
+    private static void bfs() {
+        arrayChange();
         Queue<Integer> queue = new LinkedList<>();
         queue.add(0);
         queue.add(0);
@@ -171,6 +168,16 @@ public class Backjun2638 {
                     queue.add(ny);
                     visit[ny][nx] = true;
                     board[ny][nx] = 0;
+                }
+            }
+        }
+    }
+
+    private static void arrayChange() {
+        for (int i = 1; i < N + 1; i++) {
+            for (int j = 1; j < M + 1; j++) {
+                if (board[i][j] == 0) {
+                    board[i][j] = 2;
                 }
             }
         }
