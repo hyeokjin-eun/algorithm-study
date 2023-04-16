@@ -4,7 +4,7 @@ import java.io.*;
 
 // link
 // https://www.acmicpc.net/problem/5525
-public class Backju5525_2 {
+public class Backjun5525_2 {
     private static final String[] array = {
             "1\n" +
             "13\n" +
