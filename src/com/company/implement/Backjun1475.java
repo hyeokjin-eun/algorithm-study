@@ -10,7 +10,10 @@ public class Backjun1475 {
             "9999",
             "122",
             "12635",
-            "888888"
+            "888888",
+            "99122199",
+            "123123",
+            "111444"
     };
 
     private static IOBuffered ioBuffered;
@@ -50,16 +53,19 @@ public class Backjun1475 {
 
     private static void setAnswer() {
         String number = itos(N);
-        init();
-        int count = 1;
-        for (int i = 0; i < number.length(); i++) {
-            int j = number.charAt(i) - '0';
-            if (check(j)) {
-                use(j);
-            } else {
-                init();
-                use(j);
-                count++;
+        int count = 0;
+        int ok = 0;
+        boolean[] check = new boolean[number.length()];
+        while (ok < number.length()) {
+            count++;
+            init();
+            for (int i = 0; i < number.length(); i++) {
+                int cur = number.charAt(i) - '0';
+                if (!check[i] && check(cur)) {
+                    check[i] = true;
+                    ok++;
+                    use(cur);
+                }
             }
         }
 
@@ -95,7 +101,9 @@ public class Backjun1475 {
                 numbers[9] = true;
             }
         } else {
-            numbers[num] = true;
+            if (!numbers[num]) {
+                numbers[num] = true;
+            }
         }
     }
 
