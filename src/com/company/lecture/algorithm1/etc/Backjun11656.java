@@ -3,7 +3,7 @@ package com.company.lecture.algorithm1.etc;
 import java.io.*;
 import java.util.Arrays;
 
-public class Backjin11656 {
+public class Backjun11656 {
     private static final String[] array = {
             "baekjoon",
             "aab"
