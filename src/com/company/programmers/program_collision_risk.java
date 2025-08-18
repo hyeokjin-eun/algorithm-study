@@ -44,7 +44,7 @@ public class program_collision_risk {
                         .setRoutes(new int[]{4, 2}, new int[]{1, 3}, new int[]{2, 4}),
                 new TestCase()
                         .setPoints(new int[]{3, 2}, new int[]{6, 4}, new int[]{4, 7}, new int[]{1, 4})
-                        .setRoutes(new int[]{4, 2}, new int[]{1, 3}, new int[]{4, 2}, new int[]{4, 3})
+                        .setRoutes(new int[]{4, 2}, new int[]{1, 3}, new int[]{4, 2}, new int[]{4, 3}),
                 new TestCase()
                         .setPoints(new int[]{2, 2}, new int[]{2, 3}, new int[]{2, 7}, new int[]{6, 6}, new int[]{5, 2})
                         .setRoutes(new int[]{2, 3, 4, 5}, new int[]{1, 3, 4, 5})
